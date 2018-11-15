@@ -1,0 +1,145 @@
+import java.util.Scanner;
+
+public class TEST3
+{
+    public static void main(String[] args) 
+    {
+        final int N = 5;
+        //N = number of perfect numbers to find
+        int PN [] = new int [N];
+        //array to store perfect numbers
+        PerfectNum(PN);
+        //function call to calculate 
+
+        System.out.printf("The first %d perfect numbers are:\n", N);
+        for (int i = 0; i < N; i++)
+        {
+            System.out.printf("%d\n", PN[i]);
+        }
+    }
+
+    public static void PerfectNum(int [] PN)
+    {
+        int j = 0;
+        double formula = 0;
+        int n = 2;
+        int i = 1;
+        final int N = 5;
+        while(i <= N)
+        {
+            if (isPrime(n))
+            //method call to
+            {
+                formula = Math.pow(2, n - 1)*(Math.pow(2, n) -1);
+                //formula to calculate perfect numbers using Mersenne primes
+                // PN = 2^(n-1)*(2^n - 1)
+                PN[j] = (int)formula;
+                j++;
+                i++;
+            }
+            n++;
+        }
+        
+    }
+    public static boolean isPrime(int n) 
+    {
+        //check if n is prime
+        // for (int divisor = 2; divisor <= n/2; divisor++) 
+        // {
+        //     if (n % divisor == 0) 
+        //     { // If true, number is not prime
+        //         return false; // Number is not a prime
+        //     }
+        // }
+        int MP = (int)Math.pow(2, n) - 1;
+        /*Check if n calculated in mersenne prime is prime.
+          The reason why is that for mersenne prime, 2^n -1,
+          not all prime numbers are mersenne exponents
+          e.g: n = 11 (prime), MP = 2^11 -1 = 2096128 (not prime)
+
+          Hence, checking the value of the Mersenne exponent, n
+          in the 2^n -1 formula is the determining factor on
+          whether n is truly prime or not.
+          Checking the prime number the normal way is redundant.*/
+        
+
+        for (int divisor = 2; divisor <= MP/2; divisor++) 
+        {
+            if (MP % divisor == 0) 
+            { // If true, mersenne prime from n exponent is not prime
+                return false; // Number is not a prime
+            }
+        }
+        return true; // Number is prime
+
+    }
+}
+
+
+QUESTION 5
+
+SOLUTION A
+
+import java.util.*;
+public class Permutation 
+{
+
+    public static void main(String[] args) 
+    {
+
+        final int N = 4;
+        int [] RANDOM = new int[N];
+        Random rand = new Random();
+        int i, j, temp;
+        
+        //for-loop to generate N non-duplicate random numbers stored in RANDOM[]
+        for (i = 0; i < N; i++)
+        {
+                RANDOM[i] = rand.nextInt(10);
+                temp = RANDOM[i];
+
+                for (j = 0; j < i; j++)
+                {
+                    if (temp == RANDOM[j])
+                    {
+                        i--;
+                        break;
+                    }
+                }
+        }
+
+        //line 28-31 converts int array elements into string
+        String strArray[] = new String[RANDOM.length];
+    for (i = 0; i < RANDOM.length; i++)
+      strArray[i] = String.valueOf(RANDOM[i]);
+
+        //uses regex to remove the '[ ]' and ',' when you print string array
+        String str = Arrays.toString(strArray).replaceAll("\\[|\\]|,|\\s", "");
+        System.out.println("All possible permutations of " + str + " are: ");
+
+        displayPermutation(str);
+    }
+
+    public static void displayPermutation(String s) 
+    {
+        displayPermutation("", s);
+    }
+
+    public static void displayPermutation(String s1, String s2) {
+
+        if (s2.length() == 0) 
+        {
+            String seat = Integer.valueOf(s1).toString();
+            System.out.println(seat);
+            
+        } 
+        else 
+        {
+            for (int i = 0; i < s2.length(); i++) 
+            {
+                displayPermutation(s1 + s2.charAt(i), s2.substring(0, i) + s2.substring(i + 1));
+            }
+        }
+    }
+
+}
